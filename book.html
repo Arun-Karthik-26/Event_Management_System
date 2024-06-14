@@ -255,7 +255,7 @@
                         <option value="">Select</option>
                         <option value="Happy Theory">Happy Theory</option>
                         <option value="Nura Photography">Nura Photography</option>
-                        <option value="Andrew Studios">Andrews Studios</option>
+                        <option value="Andrews Studios">Andrews Studios</option>
                         <option value="Shiny Studios">Shiny Studios</option>
                         <option value="Elite4U Photography">Elite4U Photography</option>
                         <option value="Snap Lens">Snap Lens</option>
@@ -359,11 +359,11 @@ async function generateBill() {
                 return;
             }
 
-            // Validate date (should be within the next week to one month)
-            if (date < oneWeekFromNow || date > oneMonthFromNow) {
-                document.getElementById('dateError').textContent = 'Date should be within the next week to one month.';
-                return;
-            }
+            // // Validate date (should be within the next week to one month)
+            // if (date < oneWeekFromNow || date > oneMonthFromNow) {
+            //     document.getElementById('dateError').textContent = 'Date should be within the next week to one month.';
+            //     return;
+            // }
 
             
             document.getElementById('bookingForm').submit();

@@ -4,6 +4,7 @@ const path=require("path");
 const bodyParser = require('body-parser');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
+const { Console } = require("console");
 
 const app = express();
 const port = 1818;
@@ -13,6 +14,7 @@ app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);
 });
 
+var loginname;
 app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
@@ -60,7 +62,7 @@ app.post("/register", async (req, res) => {
     await pool.query("INSERT INTO users (user_name, name, email, phone, password) VALUES ($1, $2, $3, $4, $5)", [user_name, name, email, phone, password]);
 
     // Redirect to login page with success message
-    res.redirect("/login_success.html");
+    res.redirect("/");
   } catch (err) {
     console.error("Error executing query", err.stack);
     res.status(500).send("Error registering user");
@@ -118,8 +120,10 @@ app.post('/loginadmin', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM admin WHERE user_name = $1 and password=$2', [user_name, password]);
     if (result.rows.length > 0)
-      // Redirect to success page for admin
-      res.redirect('/login_success.html');
+      {
+      loginname=user_name;
+      res.redirect('/admin');
+      }
     else
     {
     const notificationHTML = `
@@ -334,3 +338,77 @@ app.get("/studio", async (req, res) => {
     res.status(500).json({ error: "Error fetching venues" });
   }
 });
+
+app.get('/completedevents', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT e.event_id, e.event_name, e.event_date, e.user_name, e.admin_name, v.venue_name, c.catering_name, s.studio_name
+      FROM events e
+      JOIN venue v ON e.venue_id = v.venue_id
+      JOIN catering c ON e.catering_id = c.catering_id
+      JOIN studio s ON e.studio_id = s.studio_id
+      WHERE e.event_date < CURRENT_DATE
+      ORDER BY e.event_date DESC
+    `);
+    res.json(result.rows);
+    console.log(result.rows);
+  } catch (error) {
+    console.error('Error fetching completed events:', error);
+    res.status(500).send('Error fetching completed events');
+  }
+});
+
+app.get('/upcomingevents', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT e.event_id, e.event_name, e.event_date, e.user_name, e.admin_name, v.venue_name, c.catering_name, s.studio_name
+      FROM events e
+      JOIN venue v ON e.venue_id = v.venue_id
+      JOIN catering c ON e.catering_id = c.catering_id
+      JOIN studio s ON e.studio_id = s.studio_id
+      WHERE e.event_date > CURRENT_DATE
+      ORDER BY e.event_date DESC
+    `);
+    res.json(result.rows);
+    console.log(result.rows);
+  } catch (error) {
+    console.error('Error fetching completed events:', error);
+    res.status(500).send('Error fetching completed events');
+  }
+});
+
+app.get("/admin-data", async (req, res) => {
+  try {
+    const admindetails = await pool.query('SELECT * FROM admin where user_name=($1)',[loginname]);
+    res.json(admindetails.rows);
+    console.log(admindetails.rows);
+  } catch (err) {
+    console.error("Error fetching venues", err.stack);
+    res.status(500).json({ error: "Error fetching venues" });
+  }
+});
+
+app.post('/addnew', async (req, res) => {
+  const { availability } = req.body;
+  console.log(availability);
+  try {
+    if (availability === 'venue') {
+      const { name, phone, price, capacity, location, image } = req.body;
+      await pool.query(
+        'INSERT INTO venue (venue_name, capacity, phone, price, location, image) VALUES ($1, $2, $3, $4, $5, $6)',
+        [name, capacity, phone, price, location, image]
+      );
+    } else {
+      const { name, phone, price, image } = req.body;
+      await pool.query(
+        'INSERT INTO studio (studio_name, phone, price, image) VALUES ($1, $2, $3, $4)',
+        [name, phone, price, image]
+      );
+    }
+    res.redirect("/admin");
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Error executing query');
+  }
+});
+

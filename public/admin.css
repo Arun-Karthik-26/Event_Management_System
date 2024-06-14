@@ -326,7 +326,7 @@ header .fa-bars {
 
 .footer {
     background: #333;
-    color: #fff;
+    color: #cf2e2e;
     text-align: center;
     padding: 3rem 0;
 }
@@ -352,7 +352,7 @@ header .fa-bars {
 
 .footer{
     padding: 0;
-    background-color: #eee;
+    background-color: #cb2323;
   }
   .footer .box-container{
       display: flex;
@@ -368,14 +368,14 @@ header .fa-bars {
   }
   
   .footer .box-container .box h3{
-      color: #333;
+      color: #484747;
       font-size: 2.5rem;
       padding: 1rem 0;
   }
   
   .footer .box-container .box a{
       display: block;
-      color: #666;
+      color: #404040;
       font-size: 1.5rem;
       padding: 1rem 0;
   }
@@ -507,14 +507,14 @@ header .fa-bars {
 
 .footer {
     padding: 20px;
-    background-color: #fff;
+    background-color: #c3bfbf;
     display: flex;
     justify-content: center;
 }
 
 .footer a {
     margin: 0 10px;
-    color: #6c63ff;
+    color: #f7f7fa;
     text-decoration: none;
     font-size: 24px;
 }
@@ -627,4 +627,174 @@ header .fa-bars {
     .home .content span {
         font-size: 2.5rem;
     }
+}
+
+
+/* Table Styles */
+.completedEventsContainer{
+    margin-top: 2000px;
+}
+#completedEventsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#completedEventsTable thead {
+    background-color: #f2f2f2;
+}
+
+#completedEventsTable th, #completedEventsTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 2px solid #747373;
+    font-size: 1.5rem;
+}
+
+#completedEventsTable th {
+    background-color:var(--pink);
+    color: white;
+}
+
+#completedEventsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#completedEventsTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+#completedEventsContainer {
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.events-container h2 {
+    margin-bottom: 20px;
+}
+
+.events-container {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+.events-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.events-container table, th, td {
+    border: 2px solid #747373;
+    padding: 8px;
+    font-size: 1.5rem;
+}
+
+.events-container th {
+    color: whitesmoke;
+    background-color:var(--pink);
+    text-align: left;
+    font-weight: bold;
+}
+
+.events-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.events-container tr:hover {
+    background-color: #ddd;
+}
+
+.events-container th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+
+/* Modal Styles */
+/* Modal Styles */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    animation: fadeIn 0.5s;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; 
+    height: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    animation: slideIn 0.5s;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.modal-content form label {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.modal-content form input,
+.modal-content form select,
+.modal-content form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal-content form button {
+    background-color: var(--pink);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content form button:hover {
+    background-color: #e73288;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); }
+    to { transform: translateY(0); }
 }
