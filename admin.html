@@ -1,11 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Dashboard - Event-Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="sty1.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
 </head>
+
 <body>
-    <h1>admin</h1>
+    <header>
+        <input type="checkbox" id="toggler">
+        <label for="toggler" class="fa fa-bars"></label>
+        <a href="#" class="logo">Dream<span>scape</span></a>
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#dashboard">Dashboard</a>
+            <div class="search-container">
+                <form action="/action_page.php">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <button onclick="disp()" class="mo"><img src="ig/profilenav.png" alt="profile"></button>
+        </nav>
+
+    </header>
+
+    <section class="home" id="home">
+        <div class="content">
+            <h3>Welcome to Chandru</h3>
+            <span>Manage Your Events Efficiently</span>
+            <p>Navigate through the dashboard to manage events, check reviews, and update profiles.</p>
+            <a href="#dashboard" class="btn">Go to Dashboard</a>
+        </div>
+    </section>
+
+    <section class="dashboard" id="dashboard">
+        <h1 class="heading">Admin <span>Dashboard</span></h1>
+        <div class="box-container">
+            <div class="box">
+                <div class="content">
+                    <h3>Completed Events</h3>
+                    <p>View all the events that have been successfully completed.</p>
+                    <a href="#" class="btn">View Completed Events</a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="content">
+                    <h3>Upcoming Events</h3>
+                    <p>Check out the upcoming events that are scheduled.</p>
+                    <a href="#" class="btn">View Upcoming Events</a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="content">
+                    <h3>Reviews</h3>
+                    <p>Read reviews from clients about their event experiences.</p>
+                    <a href="#" class="btn">Read Reviews</a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="content">
+                    <h3>Availabilities</h3>
+                    <p>Update and manage your availability for event bookings.</p>
+                    <a href="#" class="btn">Update Availabilities</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="footer">
+
+        <div class="box-container">
+    
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Events</a>
+            <a href="#">Review</a>
+            <a href="#">Contact</a>
+          </div>
+           
+          <div class="box">
+            <h3>Extra Links</h3>
+            <a href="#">My Account</a>
+            <a href="#">My Orders</a>
+          </div>
+      
+          <div class="box">
+            <h3>Locations</h3>
+            <a href="#">Chennai</a>
+            <a href="#">Madurai</a>
+            <a href="#">Coimbatore</a>
+            <a href="#">Trichy</a>
+          </div>
+          
+          <div class="box">
+            <h3>Contact Info </h3>
+            <a href="#">+91 9876543210</a>
+            <a href="#">dreamscape@gmail.com</a>
+            <a href="#">TamilNadu, India - 400104</a>
+            <!-- Include an image of a location pin or map icon here -->
+          </div>
+      
+         <div class="credit">Created by <span>dreamscape</span> | All rights reserved </div>
+        </div>
+       </section>
+    
+
+    <div class="profile-card" id="profile">
+        <div class="container">
+            <div class="close">
+                <button> <i class="fas fa-times close-icon" id="close" onclick="closeprof()"></i></button>
+            </div>
+        </div>
+        <div class="profile-header">
+            <img src="ig/profile.jpg" alt="User Avatar">
+            <h2>Dr.Chandru Archunan</h2>
+            <p>Username: chandru_romeo</p>
+        </div>
+        <div class="profile-details">
+            <div class="lmk">
+                <p><span>Email:</span> chandru@gmail.com</p>
+                <p><span>Phone:</span> +91 8345678910</p>
+                <p><span>Date of Joining:</span> 01.01.2020</p>
+                <p><span>Date of Birth:</span> 27.12.2004</p>
+                <p><span>Experience:</span> 5 Years</p>
+                <p><span>Address:</span> 123 Main St, Madurai, TamilNadu</p>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="#"><img src="ig/fb.gif" alt="Facebook"></a>
+            <a href="#"><img src="ig/twitter.gif"></a>
+            <a href="#"><img src="ig/lk.gif" alt="LinkedIn"></a>
+        </div>
+    </div>
+
+    <script>
+        function disp() {
+            var profile = document.getElementById('profile');
+            profile.style.display = "block";
+        }
+        function closeprof() {
+            var profile = document.getElementById('profile');
+            profile.style.display = "none";
+        }
+    </script>
+
 </body>
+
 </html>
