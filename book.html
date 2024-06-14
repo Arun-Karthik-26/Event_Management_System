@@ -190,11 +190,11 @@
 <body>
     <div class="container">
         <div class="title">Book Now🔏</div>
-        <form id="bookingForm" action="/bookevent">
+        <form id="bookingForm" action="/bookevent" method="post">
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Username</span>
-                    <input type="text" id="username" placeholder="Enter your Username" required>
+                    <input type="text" id="username" name="user_name" placeholder="Enter your Username" required>
                     <span class="error" id="usernameError"></span>
                 </div>
                 <div class="input-box">
@@ -204,46 +204,46 @@
                 </div>
                 <div class="input-box">
                     <span class="details">Event Name</span>
-                    <input type="text" id="eventName" placeholder="Enter the Event Name" required>
+                    <input type="text" id="eventName" name="event_name" placeholder="Enter the Event Name" required>
                     <span class="error" id="eventNameError"></span>
                 </div>
                 <div class="input-box">
                     <span class="details">Date</span>
-                    <input type="date" id="date" required>
+                    <input type="date" id="date" name="event_date" required>
                     <span class="error" id="dateError"></span>
                 </div>
                 <div class="dropdown">
                     <span class="details">organizers</span>
-                    <select id="admin" required>
+                    <select id="admin" name="admin_name" required>
                         <option value="">Select</option>
-                        <option value="Arun Karthik">Arun Karthik</option>
-                        <option value="Chandru">Chandru</option>
-                        <option value="Priya">Priya</option>
-                        <option value="Anusha">Anusha</option>
+                        <option value="arun">arun</option>
+                        <option value="chan">chan</option>
+                        <option value="priyak">priyak</option>
+                        <option value="anu">anu</option>
                     </select>
                     <span class="error" id="venueError"></span>
                 </div>
                 <div class="dropdown">
                     <span class="details">Venue</span>
-                    <select id="venue" required>
+                    <select id="venue" name="venue_name" required>
                         <option value="">Select</option>
-                        <option value="The Grand Ballroom at The Plaza">The Grand Ballroom at The Plaza</option>
-                        <option value="The Glass House">The Glass House</option>
-                        <option value="Riverside Manor">Riverside Manor</option>
-                        <option value="The Enchanted Garden">The Enchanted Garden</option>
-                        <option value="Skyline Terrace">Skyline Terrace</option>
+                        <option value="The grant plaza">The grant plaza</option>
+                        <option value="The glass house">The glass house</option>
+                        <option value="The River Manor">The River Manor</option>
+                        <option value="The enchanted garden">The enchanted garden</option>
+                        <option value="Skline terrace">Skline terrace</option>
                         <option value="Starlight Pavilion">Starlight Pavilion</option>
                     </select>
                     <span class="error" id="venueError"></span>
                 </div>
                 <div class="dropdown">
                     <span class="details">Catering</span>
-                    <select id="catering" required>
+                    <select id="catering" name="catering_name" required>
                         <option value="">Select</option>
                         <option value="Dakshin Flavours">Dakshin Flavours</option>
                         <option value="Field Caterers">Field Caterers</option>
                         <option value="Cream Center">Cream Center</option>
-                        <option value="Katheeb Caterer">Katheeb Caterer</option>
+                        <option value="Katheeb Caterers">Katheeb Caterers</option>
                         <option value="Taste Buds">Taste Buds</option>
                         <option value="Dish Bliss">Dish Bliss</option>
                     </select>
@@ -251,15 +251,14 @@
                 </div>
                 <div class="dropdown">
                     <span class="details">Photography</span>
-                    <select id="photography" required>
+                    <select id="photography" name="studio_name" required>
                         <option value="">Select</option>
                         <option value="Happy Theory">Happy Theory</option>
                         <option value="Nura Photography">Nura Photography</option>
-                        <option value="Andrew's Studios">Andrew's Studios</option>
-                        <option value="Shiny Studio">Shiny Studio</option>
+                        <option value="Andrew Studios">Andrews Studios</option>
+                        <option value="Shiny Studios">Shiny Studios</option>
                         <option value="Elite4U Photography">Elite4U Photography</option>
                         <option value="Snap Lens">Snap Lens</option>
-                        <option value="None">None</option>
                     </select>
                     <span class="error" id="photographyError"></span>
                 </div>
@@ -267,10 +266,10 @@
             <div class="flex">
                 <div class="checkbox">
                     <span class="details">Others</span>
-                    <label><input type="checkbox" id="decoration"> Decoration</label>
-                    <label><input type="checkbox" id="floralArrangements"> Floral Arrangements</label>
-                    <label><input type="checkbox" id="lighting"> Lighting</label>
-                    <label><input type="checkbox" id="furnitureSeating"> Furniture & Seating</label>
+                    <label><input type="checkbox" id="decoration" name="decoration"> Decoration</label>
+                    <label><input type="checkbox" id="floralArrangements" name="floralArrangements"> Floral Arrangements</label>
+                    <label><input type="checkbox" id="lighting" name="lighting"> Lighting</label>
+                    <label><input type="checkbox" id="furnitureSeating" name="furnitureSeating"> Furniture & Seating</label>
                 </div>
                 <div class="gender-details">
                     <input type="radio" id="dot-1" name="gender" value="Male">
@@ -303,6 +302,31 @@
     </div>
 
     <script>
+
+async function generateBill() {
+        try {
+            const response = await fetch('/generatebill', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                // Include any necessary data for bill generation (if needed)
+                body: JSON.stringify({
+                    // Include any relevant data here, if required
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate bill');
+            }
+
+            // Redirect back to the form page after generating bill
+            window.location.href = '/'; // Update this to the URL of your form page
+        } catch (error) {
+            console.error('Error generating bill:', error);
+            // Handle error or display message to the user
+        }
+    }
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -341,8 +365,8 @@
                 return;
             }
 
-            // If all validations pass
-            alert('Form submitted successfully!');
+            
+            document.getElementById('bookingForm').submit();
         });
     </script>
 </body>

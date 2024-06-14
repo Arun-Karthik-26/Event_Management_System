@@ -2,6 +2,8 @@ const express = require("express");
 const { Pool } = require("pg");
 const path=require("path");
 const bodyParser = require('body-parser');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 
 const app = express();
 const port = 1818;
@@ -141,29 +143,163 @@ app.post('/loginadmin', async (req, res) => {
 });
 
 app.post('/bookevent', async (req, res) => {
-  const { user_name, admin_name, event_name, venue_name, catering_name, studio_name, event_date } = req.body;
+  const { user_name, event_name, event_date, admin_name, venue_name, catering_name, studio_name, decoration, floralArrangements, lighting, furnitureSeating } = req.body;
+
+  let totalBill = 0;
+  let billDescription = [];
 
   try {
-    // Retrieve IDs based on the names
-    const venue_id = await pool.query("SELECT venue_id FROM venues WHERE venue_name = $1", [venue_name]);
-    const catering_id = await pool.query("SELECT catering_id FROM catering WHERE catering_name = $1", [catering_name]);
-    const studio_id = await pool.query("SELECT studio_id FROM studio WHERE studio_name = $1", [studio_name]);
+    // Retrieve venue details and calculate its rate
+    const venueResult = await pool.query("SELECT * FROM venue WHERE venue_name = $1", [venue_name]);
+    if (venueResult.rows.length === 0) {
+      console.error('Venue not found for name:', venue_name);
+      return res.status(404).send('Venue not found');
+    }
+    const venue_rate = venueResult.rows[0].price;
+    totalBill += venue_rate;
+    billDescription.push(`Venue: ${venue_name} - $${venue_rate}`);
 
+    // Retrieve studio details and calculate its rate
+    const studioResult = await pool.query("SELECT * FROM studio WHERE studio_name = $1", [studio_name]);
+    if (studioResult.rows.length === 0) {
+      console.error('Studio not found for name:', studio_name);
+      return res.status(404).send('Studio not found');
+    }
+    const studio_rate = studioResult.rows[0].price;
+    totalBill += studio_rate;
+    billDescription.push(`Studio: ${studio_name} - $${studio_rate}`);
 
+    // Additional components with fixed rates
+    if (decoration) {
+      totalBill += 10000;
+      billDescription.push(`Decoration - $10000`);
+    }
+    if (floralArrangements) {
+      totalBill += 5000;
+      billDescription.push(`Floral Arrangements - $5000`);
+    }
+    if (lighting) {
+      totalBill += 20000;
+      billDescription.push(`Lighting - $20000`);
+    }
+    if (furnitureSeating) {
+      totalBill += 40000;
+      billDescription.push(`Furniture & Seating - $40000`);
+    }
 
-    // Insert into events table
-    await pool.query(
-      "INSERT INTO events (user_name, admin_name, event_name, venue_id, catering_id, studio_id, event_date) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-      [user_name, admin_name, event_name, venue_id, catering_id, studio_id, event_date]
+    // Concatenate bill descriptions into a single string
+    const combinedDescription = billDescription.join(', ');
+
+    // Insert into bill table
+    const billInsertResult = await pool.query(
+      "INSERT INTO bill (bill_description, total, bill_date) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING bill_id",
+      [combinedDescription, totalBill]
+    );
+    const bill_id = billInsertResult.rows[0].bill_id;
+
+    // Retrieve catering details and get catering_id
+    const cateringResult = await pool.query("SELECT catering_id FROM catering WHERE catering_name = $1", [catering_name]);
+    if (cateringResult.rows.length === 0) {
+      console.error('Catering not found for name:', catering_name);
+      return res.status(404).send('Catering not found');
+    }
+    const catering_id = cateringResult.rows[0].catering_id;
+
+    // Retrieve venue_id and studio_id
+    const venue_id = venueResult.rows[0].venue_id;
+    const studio_id = studioResult.rows[0].studio_id;
+
+    // Insert into events table with retrieved bill_id
+    const eventInsertResult = await pool.query(
+      "INSERT INTO events (user_name, admin_name, event_name, venue_id, catering_id, studio_id, event_date, bill_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+      [user_name, admin_name, event_name, venue_id, catering_id, studio_id, event_date, bill_id]
     );
 
-    res.send('Event booked successfully!');
+    const notificationHTML = `
+      <div class="notification-container" id="notificationContainer">
+        <div class="notification-content">
+          Event Booked Successfully
+        </div>
+        <div class="btn">
+        <button ><a href="/generatebill/${bill_id}">Generate bill</a></button>
+        </div>
+      </div>`;
+    res.send(notificationHTML);
   } catch (err) {
     console.error('Error executing query', err.stack);
     res.status(500).send('Error booking event');
   }
 });
 
+
+const pdfDirectory = path.join(__dirname, 'public');
+
+app.get('/generatebill/:bill_id', async (req, res) => {
+  const billId = req.params.bill_id;
+
+  try {
+    // Fetch bill details from the database
+    const query = {
+      text: `
+        SELECT b.bill_id, b.bill_description, b.total, b.bill_date,
+               e.user_name, e.event_name, e.event_date
+        FROM bill b
+        JOIN events e ON b.bill_id = e.bill_id
+        WHERE b.bill_id = $1
+      `,
+      values: [billId],
+    };
+
+    const result = await pool.query(query);
+    if (result.rows.length === 0) {
+      console.error('Bill not found');
+      return res.status(404).send('Bill not found');
+    }
+
+    const billData = result.rows[0];
+
+    // Create a new PDF document
+    const doc = new PDFDocument();
+
+    // Buffer to store PDF content
+    let buffers = [];
+    doc.on('data', buffers.push.bind(buffers));
+    doc.on('end', () => {
+      const pdfData = Buffer.concat(buffers);
+
+      // Set HTTP headers
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="bill_${billId}.pdf"`);
+      res.setHeader('Content-Length', pdfData.length);
+
+      // Send PDF data to client
+      res.end(pdfData);
+    });
+
+    // Add content to the PDF document
+    doc.fontSize(24).text('Bill Details', { align: 'center' }).moveDown();
+
+    // Add bill details to the PDF
+    doc.font('Helvetica-Bold').fontSize(14)
+      .text(`Bill ID: ${billData.bill_id}`)
+      .text(`Bill Description: ${billData.bill_description}`)
+      .text(`Total: $${billData.total}`)
+      .text(`Bill Date: ${billData.bill_date.toDateString()}`)
+      .moveDown()
+      .text('Event Details')
+      .text(`User: ${billData.user_name}`)
+      .text(`Event Name: ${billData.event_name}`)
+      .text(`Event Date: ${billData.event_date.toDateString()}`)
+      .moveDown();
+
+    // Finalize PDF
+    doc.end();
+
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
 
 app.get("/venues", async (req, res) => {
   try {
@@ -175,6 +311,7 @@ app.get("/venues", async (req, res) => {
     res.status(500).json({ error: "Error fetching venues" });
   }
 });
+
 
 app.get("/catering", async (req, res) => {
   try {
