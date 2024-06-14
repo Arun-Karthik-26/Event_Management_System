@@ -1,0 +1,9 @@
+CREATE TABLE venue (
+    venue_id SERIAL PRIMARY KEY,
+    venue_name VARCHAR(50) NOT NULL,
+    capacity INTEGER NOT NULL,
+    phone BIGINT NOT NULL,
+    price INTEGER NOT NULL,
+    location VARCHAR(50) NOT NULL,
+    image BYTEA
+);

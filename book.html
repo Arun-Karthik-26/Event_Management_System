@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsive Registration Form | CodingLab</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&amp;display=swap">
+    <style>
+        /* Style code here (same as provided) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            max-height: 150vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .title {
+            font-size: 25px;
+            font-weight: 500;
+            text-align: center;
+            position: relative;
+        }
+
+        .title::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 3px;
+            width: 30px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+
+        .user-details, .specifications, .checkbox, .gender-details, .terms {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .input-box, .dropdown {
+            margin-bottom: 15px;
+            width: calc(50% - 10px);
+        }
+
+        .details {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .input-box input, .dropdown select {
+            height: 45px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            padding-left: 15px;
+            border: 1px solid #ccc;
+            border-bottom-width: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .input-box input:focus,
+        .input-box input:valid,
+        .dropdown select:focus,
+        .dropdown select:valid {
+            border-color: #9b59b6;
+        }
+
+        .checkbox, .gender-details {
+            width: 50%;
+            /* justify-content: space-between; */
+            flex-direction: column;
+            margin: 20px 0;
+        }
+
+        .checkbox input, .gender-details input {
+            margin-right: 10px;
+        }
+        .gender-details{
+            margin-left: 40px;
+        }
+        .gender-details .category{
+            margin-bottom: 40px;
+        }
+        .flex{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .category label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .category input {
+            margin-right: 10px;
+        }
+
+        .terms {
+            justify-content: flex-start;
+            margin-top: 20px;
+        }
+
+        .button {
+            height: 45px;
+            margin: 35px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .button input {
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+
+        .button input:hover {
+            background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+        }
+
+        @media(max-width: 584px) {
+            .container {
+                max-width: 100%;
+            }
+
+            .input-box, .dropdown {
+                margin-bottom: 15px;
+                width: 100%;
+            }
+
+            .checkbox, .gender-details {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .category {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .user-details {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .user-details::-webkit-scrollbar {
+                width: 5px;
+            }
+        }
+
+        @media(max-width: 459px) {
+            .category {
+                flex-direction: column;
+            }
+        }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Book Now🔏</div>
+        <form id="bookingForm" action="/bookevent">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Username</span>
+                    <input type="text" id="username" placeholder="Enter your Username" required>
+                    <span class="error" id="usernameError"></span>
+                </div>
+                <div class="input-box">
+                    <span class="details">Mobile Number</span>
+                    <input type="number" id="mobileNumber" placeholder="Enter your Mobile Number" required>
+                    <span class="error" id="mobileNumberError"></span>
+                </div>
+                <div class="input-box">
+                    <span class="details">Event Name</span>
+                    <input type="text" id="eventName" placeholder="Enter the Event Name" required>
+                    <span class="error" id="eventNameError"></span>
+                </div>
+                <div class="input-box">
+                    <span class="details">Date</span>
+                    <input type="date" id="date" required>
+                    <span class="error" id="dateError"></span>
+                </div>
+                <div class="dropdown">
+                    <span class="details">organizers</span>
+                    <select id="admin" required>
+                        <option value="">Select</option>
+                        <option value="Arun Karthik">Arun Karthik</option>
+                        <option value="Chandru">Chandru</option>
+                        <option value="Priya">Priya</option>
+                        <option value="Anusha">Anusha</option>
+                    </select>
+                    <span class="error" id="venueError"></span>
+                </div>
+                <div class="dropdown">
+                    <span class="details">Venue</span>
+                    <select id="venue" required>
+                        <option value="">Select</option>
+                        <option value="The Grand Ballroom at The Plaza">The Grand Ballroom at The Plaza</option>
+                        <option value="The Glass House">The Glass House</option>
+                        <option value="Riverside Manor">Riverside Manor</option>
+                        <option value="The Enchanted Garden">The Enchanted Garden</option>
+                        <option value="Skyline Terrace">Skyline Terrace</option>
+                        <option value="Starlight Pavilion">Starlight Pavilion</option>
+                    </select>
+                    <span class="error" id="venueError"></span>
+                </div>
+                <div class="dropdown">
+                    <span class="details">Catering</span>
+                    <select id="catering" required>
+                        <option value="">Select</option>
+                        <option value="Dakshin Flavours">Dakshin Flavours</option>
+                        <option value="Field Caterers">Field Caterers</option>
+                        <option value="Cream Center">Cream Center</option>
+                        <option value="Katheeb Caterer">Katheeb Caterer</option>
+                        <option value="Taste Buds">Taste Buds</option>
+                        <option value="Dish Bliss">Dish Bliss</option>
+                    </select>
+                    <span class="error" id="cateringError"></span>
+                </div>
+                <div class="dropdown">
+                    <span class="details">Photography</span>
+                    <select id="photography" required>
+                        <option value="">Select</option>
+                        <option value="Happy Theory">Happy Theory</option>
+                        <option value="Nura Photography">Nura Photography</option>
+                        <option value="Andrew's Studios">Andrew's Studios</option>
+                        <option value="Shiny Studio">Shiny Studio</option>
+                        <option value="Elite4U Photography">Elite4U Photography</option>
+                        <option value="Snap Lens">Snap Lens</option>
+                        <option value="None">None</option>
+                    </select>
+                    <span class="error" id="photographyError"></span>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="checkbox">
+                    <span class="details">Others</span>
+                    <label><input type="checkbox" id="decoration"> Decoration</label>
+                    <label><input type="checkbox" id="floralArrangements"> Floral Arrangements</label>
+                    <label><input type="checkbox" id="lighting"> Lighting</label>
+                    <label><input type="checkbox" id="furnitureSeating"> Furniture & Seating</label>
+                </div>
+                <div class="gender-details">
+                    <input type="radio" id="dot-1" name="gender" value="Male">
+                    <input type="radio" id="dot-2" name="gender" value="Female">
+                    <input type="radio" id="dot-3" name="gender" value="None">
+                    <span class="gender-title">Gender</span>
+                    <div class="category">
+                        <label for="dot-1">
+                            <span class="dot one"></span>
+                            <span class="gender">Male</span>
+                        </label>
+                        <label for="dot-2">
+                            <span class="dot two"></span>
+                            <span class="gender">Female</span>
+                        </label>
+                        <label for="dot-3">
+                            <span class="dot three"></span>
+                            <span class="gender">None</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="terms">
+                <label><input type="checkbox" id="terms" required> I agree to the terms and conditions</label>
+            </div>
+            <div class="button">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('bookingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Clear previous errors
+            document.querySelectorAll('.error').forEach(function(errorElement) {
+                errorElement.textContent = '';
+            });
+
+            // Get form values
+            const username = document.getElementById('username').value;
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const date = new Date(document.getElementById('date').value);
+            const now = new Date();
+            const oneWeekFromNow = new Date();
+            oneWeekFromNow.setDate(now.getDate() + 7);
+            const oneMonthFromNow = new Date();
+            oneMonthFromNow.setMonth(now.getMonth() + 1);
+
+            // Validate username (no numbers allowed)
+            const usernamePattern = /^[a-zA-Z\s]+$/;
+            if (!usernamePattern.test(username)) {
+                document.getElementById('usernameError').textContent = 'Username should not contain numbers.';
+                return;
+            }
+
+            // Validate mobile number (should have 10 digits)
+            const mobileNumberPattern = /^\d{10}$/;
+            if (!mobileNumberPattern.test(mobileNumber)) {
+                document.getElementById('mobileNumberError').textContent = 'Mobile number should be 10 digits.';
+                return;
+            }
+
+            // Validate date (should be within the next week to one month)
+            if (date < oneWeekFromNow || date > oneMonthFromNow) {
+                document.getElementById('dateError').textContent = 'Date should be within the next week to one month.';
+                return;
+            }
+
+            // If all validations pass
+            alert('Form submitted successfully!');
+        });
+    </script>
+</body>
+</html>

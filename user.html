@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event-Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="user.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body onload="fetches()">
+    <header>
+        <input type="checkbox" name="" id="toggler">
+        <label for="toggler" class="fa fa-bars"></label>
+        <a href="#" class="logo">Dream<span>scape</span></a>
+        <nav class="navbar">
+            <a href="#home">home</a>
+            <a href="#products">Events</a>
+            <a href="#review">review</a>
+            <a href="#contact">contact</a>
+            <a href="/book">Book now</a>
+            <a href="#status">view status</a>
+        </nav>
+    </header>
+
+    <section class="home" id="home">
+        <video autoplay muted loop id="background-video">
+            <!-- <source src="istockphoto-1295381143-640_adpp_is.mp4" type="video/mp4"> -->
+            Your browser does not support the video tag.
+        </video>
+        <div class="content">
+            <h3>Welcome to Dreamscape</h3>
+            <span>Making Every Event Unforgettable</span>
+            <p>At Dreamscape, we specialize in turning your event visions into reality. From corporate gatherings to private celebrations, we offer comprehensive event management services tailored to your needs.</p>
+            <a href="/book" class="btn">Book now</a>
+        </div>
+    </section>
+    
+    <section class="products" id="products">
+        <h1 class="heading">Our <span>Events</span></h1>
+        <div class="box-container">
+            <div class="box">
+                <div class="image">
+                    <img src="./images/wedding.jpg" alt="">
+                </div>
+                <div class="content">
+                    <h3>Wedding</h3>
+                </div>
+            </div>
+            <div class="box">
+                <div class="image">
+                    <img src="./images/birthday.jpg" alt="">
+                </div>
+                <div class="content">
+                    <h3>Birthday</h3>
+                </div>
+            </div>
+            <div class="box">
+                <div class="image">
+                    <img src="./images/fam.jpg" alt="">
+                </div>
+                <div class="content">
+                    <h3>Family functions</h3>
+                </div>
+            </div>
+            <div class="box">
+                <div class="image">
+                    <img src="./images/sangeet.jpg" alt="">
+                </div>
+                <div class="content">
+                    <h3>Sangeet</h3>
+                </div>
+            </div>
+            <div class="box">
+                <div class="image">
+                    <img src="./images/conc.webp" alt="">
+                </div>
+                <div class="content">
+                    <h3>Music concerts</h3>
+                </div>
+            </div>
+            <div class="box">
+                <div class="image">
+                    <img src="./images/corp.jpeg" alt="">
+                </div>
+                <div class="content">
+                    <h3>Corporate events</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="products" id="products">
+        <h1 class="heading">Our <span>Spaces</span></h1>
+        <div id="venue-container" class="box-container">
+            <!-- Venue boxes will be inserted here -->
+        </div>
+    </section>
+    <section class="products" id="products">
+        <h1 class="heading">Our <span>Dish pillars</span></h1>
+        <div class="box-container" id="catering-container">
+             
+        </div>
+    </section>
+
+
+    <section class="products" id="products">
+        <h1 class="heading">Our <span>Creative Spaces</span></h1>
+        <div class="box-container" id="studio-container">
+           
+        </div>
+    </section>
+
+    <!-- review section starts -->
+    <section class="review" id="review">
+        <h1 class="heading">Customer <span>Reviews</span></h1>
+        <div class="box-container">
+            <div class="box">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>Fantastic birthday party! The decorations were beautiful, the activities were engaging, and everything was perfectly organized. My child had an amazing time, and so did all the guests. Highly recommend!</p>
+                <div class="user">
+                    <img src="./images/men1.jpg" alt="">
+                    <div class="user-info">
+                        <h3>Shyam Ganesh</h3>
+                        <span>happy customer</span>
+                    </div>
+                </div>
+                <span class="fas fa-quote-right"></span>
+            </div>
+            <div class="box">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>Our wedding was an absolute dream come true, thanks to the impeccable planning and coordination. Every detail was perfect, and we couldn't have asked for a more memorable day. Thank you!</p>
+                <div class="user">
+                    <img src="./images/men2.jpg" alt="">
+                    <div class="user-info">
+                        <h3>Kumaraguru</h3>
+                        <span>happy customer</span>
+                    </div>
+                </div>
+                <span class="fas fa-quote-right"></span>
+            </div>
+            <div class="box">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>Exceptional corporate event! The logistics were seamless, the venue was impressive, and the schedule ran smoothly. Our team was thoroughly impressed and motivated. Outstanding job from start to finish!</p>
+                <div class="user">
+                    <img src="./images/men3.jpg" alt="">
+                    <div class="user-info">
+                        <h3>Dr. Chandru</h3>
+                        <span>happy customer</span>
+                    </div>
+                </div>
+                <span class="fas fa-quote-right"></span>
+            </div>
+        </div>
+    </section>
+    <!-- review section ends -->
+                        <!-- footer section starts -->
+<section class="footer">
+    <div class="box-container">
+        <div class="box">
+            <h3>Quick Links</h3>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Events</a>
+            <a href="#">Review</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="box">
+            <h3>Extra Links</h3>
+            <a href="#">My Account</a>
+            <a href="#">My Orders</a>
+        </div>
+        <div class="box">
+            <h3>Locations</h3>
+            <a href="#">Chennai</a>
+            <a href="#">Madurai</a>
+            <a href="#">Coimbatore</a>
+            <a href="#">Trichy</a>
+        </div>
+        <div class="box">
+            <h3>Contact Info </h3>
+            <a href="#">+91 9876543210</a>
+            <a href="#">dreamscape@gmail.com</a>
+            <a href="#">TamilNadu, India - 400104</a>
+            <!-- Include an image of a location pin or map icon here -->
+        </div>
+    </div>
+    <div class="credit">Created by <span>dreamscape</span> | All rights reserved </div>
+</section>
+<!-- footer section ends --> 
+ <script>
+       function fetches()
+       { 
+        fetch('/venues') // Update the URL to match your backend endpoint
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Log fetched data for debugging
+                const venueContainer = document.getElementById('venue-container');
+                data.forEach(venue => {
+                    const box = document.createElement('div');
+                    box.classList.add('box');
+
+                    const image = document.createElement('div');
+                    image.classList.add('image');
+                    image.innerHTML = `<img src="${venue.image.replace('C:\\Users\\admin\\Documents\\DBMS PROJECT\\public\\', '')}" alt="${venue.venue_name}">`;
+
+                    // Creating content div and adding venue details
+                    const content = document.createElement('div');
+                    content.classList.add('content');
+                    content.innerHTML = `
+                        <h3>${venue.venue_name}</h3>
+                        <p>Capacity: ${venue.capacity}</p>
+                        <p>Phone: ${venue.phone}</p>
+                        <p>Price: ${venue.price}</p>
+                        <p>Location: ${venue.location}</p>
+                    `;
+
+                    box.appendChild(image);
+                    box.appendChild(content);
+                    venueContainer.appendChild(box);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching venues:', error);
+            });
+          
+            fetch('/catering') // Update the URL to match your backend endpoint
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Log fetched data for debugging
+                const cateringcontainer = document.getElementById('catering-container');
+                data.forEach(catering => {
+                    const box = document.createElement('div');
+                    box.classList.add('box');
+
+                    const image = document.createElement('div');
+                    image.classList.add('image');
+                    image.innerHTML = `<img src="${catering.image.replace('C:\\Users\\admin\\Documents\\DBMS PROJECT\\public\\', '')}" alt="${catering.catering_name}">`;
+
+                    // Creating content div and adding venue details
+                    const content = document.createElement('div');
+                    content.classList.add('content');
+                    content.innerHTML = `
+                        <h3>${catering.catering_name}</h3>
+                        <p>Phone: ${catering.phone}</p>
+                    `;
+                    box.appendChild(image);
+                    box.appendChild(content);
+                    cateringcontainer.appendChild(box);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching venues:', error);
+            });
+
+
+            
+            fetch('/studio') // Update the URL to match your backend endpoint
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Log fetched data for debugging
+                const studiocontainer = document.getElementById('studio-container');
+                data.forEach(studio => {
+                    const box = document.createElement('div');
+                    box.classList.add('box');
+
+                    const image = document.createElement('div');
+                    image.classList.add('image');
+                    image.innerHTML = `<img src="${studio.image.replace('C:\\Users\\admin\\Documents\\DBMS PROJECT\\public\\', '')}" alt="${studio.studio_name}">`;
+
+                    // Creating content div and adding venue details
+                    const content = document.createElement('div');
+                    content.classList.add('content');
+                    content.innerHTML = `
+                        <h3>${studio.studio_name}</h3>
+                        <p>Phone: ${studio.phone}</p>
+                        <p>Price: ${studio.price}</p>
+                    `;
+                    box.appendChild(image);
+                    box.appendChild(content);
+                    studiocontainer.appendChild(box);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching venues:', error);
+            });
+ 
+       }
+ </script>   
+</body>
+</html>
