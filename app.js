@@ -219,16 +219,7 @@ app.post('/bookevent', async (req, res) => {
       [user_name, admin_name, event_name, venue_id, catering_id, studio_id, event_date, bill_id]
     );
 
-    const notificationHTML = `
-      <div class="notification-container" id="notificationContainer">
-        <div class="notification-content">
-          Event Booked Successfully
-        </div>
-        <div class="btn">
-        <button ><a href="/generatebill/${bill_id}">Generate bill</a></button>
-        </div>
-      </div>`;
-    res.send(notificationHTML);
+    res.json({ bill_id });
   } catch (err) {
     console.error('Error executing query', err.stack);
     res.status(500).send('Error booking event');
@@ -409,6 +400,29 @@ app.post('/addnew', async (req, res) => {
   } catch (err) {
     console.error('Error executing query', err.stack);
     res.status(500).send('Error executing query');
+  }
+});
+app.get("/menu/:cateringname", async (req, res) => {
+  try {
+    const cateringname = req.params.cateringname;
+
+    // Query to find catering id by cateringname
+    const cateringResult = await pool.query('SELECT catering_id FROM catering WHERE catering_name = $1', [cateringname]);
+
+    if (cateringResult.rows.length === 0) {
+      return res.status(404).json({ error: "Catering not found" });
+    }
+
+    const cateringId = cateringResult.rows[0].catering_id;
+
+    // Query to find menu details by catering id
+    const menuResult = await pool.query('SELECT * FROM menu WHERE catering_id = $1', [cateringId]);
+
+    res.json(menuResult.rows);
+    console.log(menuResult.rows);
+  } catch (err) {
+    console.error("Error fetching menu details", err.stack);
+    res.status(500).json({ error: "Error fetching menu details" });
   }
 });
 

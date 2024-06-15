@@ -120,7 +120,7 @@ header .fa-bars{
     display: flex;
     align-items: center;
     min-height: 100vh;
-    background: url('https://media.istockphoto.com/id/1006071106/photo/romantic-wedding-ceremony-on-the-beach.jpg?s=2048x2048&w=is&k=20&c=4-UZDWU7UmvkChc2XbOPXmh2TtE3sD9GfL4xdVqJ1fM=') no-repeat; 
+    background: url('./images/bg.jpg') no-repeat; 
     background-size: cover;
     background-position: center;
 }
@@ -130,7 +130,7 @@ header .fa-bars{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.627);
+    background-color: rgba(0, 0, 0, 0.482);
     z-index: 1;
 }
 .home .content{
@@ -239,7 +239,7 @@ header .fa-bars{
     color: #333;
 }
 
-.products .box-container .box .content .price{
+.products .box-container .box .content p{
     font-size: 2rem;
     color: var(--pink);
     font-weight: bolder;
@@ -639,4 +639,46 @@ header .fa-bars{
     .category {
         flex-direction: column;
     }
+}
+
+.menu-container {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.menu-item {
+    display: table-row;
+    border: 1px solid #ccc;
+}
+
+.menu-item h4,
+.menu-item p {
+    display: table-cell;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.menu-item h4 {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+.menu-item p {
+    background-color: #fff;
+}
+
+.menubutton{
+    display: inline-block;
+    margin-top: 1rem;
+    border-radius: 5rem;
+    background: #333;
+    color: #fff;
+    padding: .9rem 3.5rem;
+    cursor: pointer;
+    font-size: 1.7rem;
+}
+.menubutton:hover{
+    background: var(--pink);
 }

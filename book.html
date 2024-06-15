@@ -5,7 +5,6 @@
     <title>Responsive Registration Form | CodingLab</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&amp;display=swap">
     <style>
-        /* Style code here (same as provided) */
         * {
             margin: 0;
             padding: 0;
@@ -86,12 +85,10 @@
         .dropdown select:valid {
             border-color: #9b59b6;
         }
-
         .checkbox, .gender-details {
             width: 50%;
-            /* justify-content: space-between; */
+            justify-content: space-between;
             flex-direction: column;
-            margin: 20px 0;
         }
 
         .checkbox input, .gender-details input {
@@ -102,6 +99,10 @@
         }
         .gender-details .category{
             margin-bottom: 40px;
+        }
+
+        .gender-details .category input{
+                margin-left: 20px;
         }
         .flex{
             display: flex;
@@ -185,6 +186,26 @@
             }
         }
         .error { color: red; }
+
+        .notification-container {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #aef5b0;
+            color: rgb(113, 110, 110);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .notification-container .btn a {
+            color: rgb(251, 69, 206);
+            text-decoration: none;
+        }
+        .notification-container .btn a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -213,25 +234,25 @@
                     <span class="error" id="dateError"></span>
                 </div>
                 <div class="dropdown">
-                    <span class="details">organizers</span>
+                    <span class="details">Organizers</span>
                     <select id="admin" name="admin_name" required>
                         <option value="">Select</option>
-                        <option value="arun">arun</option>
-                        <option value="chan">chan</option>
-                        <option value="priyak">priyak</option>
-                        <option value="anu">anu</option>
+                        <option value="arun">Arun</option>
+                        <option value="chan">Chan</option>
+                        <option value="priyak">Priyak</option>
+                        <option value="anu">Anu</option>
                     </select>
-                    <span class="error" id="venueError"></span>
+                    <span class="error" id="adminError"></span>
                 </div>
                 <div class="dropdown">
                     <span class="details">Venue</span>
                     <select id="venue" name="venue_name" required>
                         <option value="">Select</option>
-                        <option value="The grant plaza">The grant plaza</option>
-                        <option value="The glass house">The glass house</option>
+                        <option value="The grant plaza">The Grant Plaza</option>
+                        <option value="The glass house">The Glass House</option>
                         <option value="The River Manor">The River Manor</option>
-                        <option value="The enchanted garden">The enchanted garden</option>
-                        <option value="Skline terrace">Skline terrace</option>
+                        <option value="The enchanted garden">The Enchanted Garden</option>
+                        <option value="Skline terrace">Skline Terrace</option>
                         <option value="Starlight Pavilion">Starlight Pavilion</option>
                     </select>
                     <span class="error" id="venueError"></span>
@@ -272,22 +293,22 @@
                     <label><input type="checkbox" id="furnitureSeating" name="furnitureSeating"> Furniture & Seating</label>
                 </div>
                 <div class="gender-details">
-                    <input type="radio" id="dot-1" name="gender" value="Male">
-                    <input type="radio" id="dot-2" name="gender" value="Female">
-                    <input type="radio" id="dot-3" name="gender" value="None">
                     <span class="gender-title">Gender</span>
                     <div class="category">
                         <label for="dot-1">
-                            <span class="dot one"></span>
+                            <span ></span>
                             <span class="gender">Male</span>
+                            <input type="radio" id="dot-1" name="gender" value="Male">
                         </label>
                         <label for="dot-2">
-                            <span class="dot two"></span>
+                            <span></span>
                             <span class="gender">Female</span>
+                            <input type="radio" id="dot-2" name="gender" value="Female">
                         </label>
                         <label for="dot-3">
                             <span class="dot three"></span>
                             <span class="gender">None</span>
+                            <input type="radio" id="dot-3" name="gender" value="None">
                         </label>
                     </div>
                 </div>
@@ -301,33 +322,15 @@
         </form>
     </div>
 
+    <div class="notification-container" id="notificationContainer">
+        <div class="notification-content"></div>
+        <div class="btn">
+            <button><a id="billLink" href="#">Generate bill</a></button>
+        </div>
+    </div>
+
     <script>
-
-async function generateBill() {
-        try {
-            const response = await fetch('/generatebill', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                // Include any necessary data for bill generation (if needed)
-                body: JSON.stringify({
-                    // Include any relevant data here, if required
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to generate bill');
-            }
-
-            // Redirect back to the form page after generating bill
-            window.location.href = '/'; // Update this to the URL of your form page
-        } catch (error) {
-            console.error('Error generating bill:', error);
-            // Handle error or display message to the user
-        }
-    }
-        document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        document.getElementById('bookingForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
             // Clear previous errors
@@ -336,6 +339,7 @@ async function generateBill() {
             });
 
             // Get form values
+            const formData = new FormData(this);
             const username = document.getElementById('username').value;
             const mobileNumber = document.getElementById('mobileNumber').value;
             const date = new Date(document.getElementById('date').value);
@@ -359,14 +363,42 @@ async function generateBill() {
                 return;
             }
 
-            // // Validate date (should be within the next week to one month)
-            // if (date < oneWeekFromNow || date > oneMonthFromNow) {
-            //     document.getElementById('dateError').textContent = 'Date should be within the next week to one month.';
-            //     return;
-            // }
+            // Validate date (should be within the next week to one month)
+            if (date < oneWeekFromNow || date > oneMonthFromNow) {
+                document.getElementById('dateError').textContent = 'Date should be within the next week to one month.';
+                return;
+            }
 
-            
-            document.getElementById('bookingForm').submit();
+            try {
+                const response = await fetch('/bookevent', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const notificationContainer = document.getElementById('notificationContainer');
+                    const notificationContent = notificationContainer.querySelector('.notification-content');
+                    const billLink = document.getElementById('billLink');
+
+                    notificationContent.textContent = 'Event Booked Successfully';
+                    billLink.href = `/generatebill/${data.bill_id}`;
+
+                    notificationContainer.style.display = 'block';
+
+                    // Hide the notification after a few seconds
+                    setTimeout(() => {
+                        notificationContainer.style.display = 'none';
+                    }, 10000);
+                } else {
+                    const errorText = await response.text();
+                    console.error('Error booking event:', errorText);
+                    alert('Error booking event: ' + errorText);
+                }
+            } catch (error) {
+                console.error('Error booking event:', error);
+                alert('Error booking event: ' + error);
+            }
         });
     </script>
 </body>

@@ -120,7 +120,7 @@ header .fa-bars{
     display: flex;
     align-items: center;
     min-height: 100vh;
-    background: url('https://wallpapercave.com/wp/wp10715778.jpg') no-repeat; 
+    background: url('./images/bg.jpg') no-repeat; 
     background-size: cover;
     background-position: center;
 }
@@ -131,7 +131,7 @@ header .fa-bars{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.627);
+    background-color: rgba(0, 0, 0, 0.482);
     z-index: 1;
 }
 .home .content{

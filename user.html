@@ -96,6 +96,9 @@
         <div class="box-container" id="catering-container">
              
         </div>
+        <div id="menu-container" class="menu-container">
+            <!-- Menu items will be inserted here -->
+        </div>
     </section>
 
 
@@ -236,35 +239,72 @@
                 console.error('Error fetching venues:', error);
             });
           
-            fetch('/catering') // Update the URL to match your backend endpoint
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched data:', data); // Log fetched data for debugging
-                const cateringcontainer = document.getElementById('catering-container');
-                data.forEach(catering => {
-                    const box = document.createElement('div');
-                    box.classList.add('box');
+          
+            fetch('/catering')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data);
+            const cateringContainer = document.getElementById('catering-container');
+            data.forEach(catering => {
+                const box = document.createElement('div');
+                box.classList.add('box');
 
-                    const image = document.createElement('div');
-                    image.classList.add('image');
-                    image.innerHTML = `<img src="${catering.image.replace('C:\\Users\\admin\\Documents\\DBMS PROJECT\\public\\', '')}" alt="${catering.catering_name}">`;
+                const image = document.createElement('div');
+                image.classList.add('image');
+                image.innerHTML = `<img src="${catering.image.replace('C:\\Users\\admin\\Documents\\DBMS PROJECT\\public\\', '')}" alt="${catering.catering_name}">`;
 
-                    // Creating content div and adding venue details
-                    const content = document.createElement('div');
-                    content.classList.add('content');
-                    content.innerHTML = `
-                        <h3>${catering.catering_name}</h3>
-                        <p>Phone: ${catering.phone}</p>
-                    `;
-                    box.appendChild(image);
-                    box.appendChild(content);
-                    cateringcontainer.appendChild(box);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching venues:', error);
+                const content = document.createElement('div');
+                content.classList.add('content');
+                content.innerHTML = `
+                    <h3>${catering.catering_name}</h3>
+                    <p>Phone: ${catering.phone}</p>
+                    <button class="menubutton" data-catering-name="${catering.catering_name}">View menu</button>
+                `;
+                box.appendChild(image);
+                box.appendChild(content);
+                cateringContainer.appendChild(box);
+
+                // Create a menu container for each catering box
+                const menuContainer = document.createElement('div');
+                menuContainer.classList.add('menu-container');
+                box.appendChild(menuContainer);
             });
 
+            document.querySelectorAll('.menubutton').forEach(button => {
+                button.addEventListener('click', function() {
+                    const cateringName = this.getAttribute('data-catering-name');
+                    fetch(`/menu/${cateringName}`)
+                        .then(response => response.json())
+                        .then(menu => {
+                            console.log('Fetched menu:', menu);
+                            const menuContainer = this.parentElement.nextElementSibling; // Get the menu container
+
+                            menuContainer.innerHTML = ''; // Clear any previous menu
+
+                            menu.forEach(item => {
+                                const menuItem = document.createElement('div');
+                                menuItem.classList.add('menu-item');
+                                menuItem.innerHTML = `
+                                    <h4>${item.diet_type.toUpperCase()} Menu</h4>
+                                    <p>Breakfast: ${item.breakfast}</p>
+                                    <p>Lunch: ${item.lunch}</p>
+                                    <p>Dinner: ${item.dinner}</p>
+                                    <p>Price per head: ${item.priceperhead}</p>
+                                `;
+                                menuContainer.appendChild(menuItem);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching menu:', error);
+                        });
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching catering:', error);
+        });
+
+            
 
             
             fetch('/studio') // Update the URL to match your backend endpoint
@@ -301,3 +341,4 @@
  </script>   
 </body>
 </html>
+
